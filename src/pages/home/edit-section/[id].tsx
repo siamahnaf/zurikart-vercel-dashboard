@@ -20,6 +20,7 @@ import { useAppSelector, useAppDispatch } from "Redux/Hook";
 import { checkToken, getProfile } from "Redux/Action/Authentication/auth.action";
 import { getSingleSection, updateSections } from "Redux/Action/Home/home.action";
 import { getAllCategory } from "Redux/Action/Categories/category.action";
+import { getSubCategory } from "Redux/Action/SubCategories/sub.action";
 
 //Import types
 import { Values } from "Types/Input.types";
@@ -40,6 +41,8 @@ const EditSection: NextPage = () => {
     const { profile } = useAppSelector(state => state.profile);
     const { sections, messageErr } = useAppSelector(state => state.getSingleSec);
     const { categoriesData } = useAppSelector(state => state.getCategory);
+    const { subcategoryData } = useAppSelector(state => state.getSubs)
+    const [subOptions, setSubOptions] = useState<Values[]>([]);
     const { message, loading, success } = useAppSelector(state => state.updateSec);
     //State
     const [options, setOptions] = useState<Values[]>([]);
@@ -82,8 +85,15 @@ const EditSection: NextPage = () => {
                 label: item.name
             }
         })
-        setOptions(result)
-    }, [categoriesData, setOptions])
+        setOptions(result);
+        const subResult = subcategoryData?.map((item: any) => {
+            return {
+                value: item.id,
+                label: item.name
+            }
+        });
+        setSubOptions(subResult);
+    }, [categoriesData, setOptions, subcategoryData, setSubOptions])
     useEffect(() => {
         if (message && success !== null) {
             setOpen(true)
@@ -227,7 +237,7 @@ const EditSection: NextPage = () => {
                                                     render={({ field: { onChange } }) => (
                                                         <Select
                                                             onChange={(e: any) => onChange(e?.value)}
-                                                            options={options}
+                                                            options={subOptions}
                                                             placeholder="Select category"
                                                             styles={selectStyles}
                                                             defaultValue={{ value: sections?.category2?.id, label: sections?.category2?.name }}
@@ -377,6 +387,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
             await store.dispatch(getProfile(context.req.cookies['secretId'] as string));
             await store.dispatch(getSingleSection(context.query.id as string));
             await store.dispatch(getAllCategory(context.req.cookies['secretId'] as string))
+            await store.dispatch(getSubCategory(context.req.cookies['secretId'] as string))
             if (!auth) {
                 return {
                     redirect: {

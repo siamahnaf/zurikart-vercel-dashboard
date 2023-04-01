@@ -23,6 +23,7 @@ import { getAllCategory } from "Redux/Action/Categories/category.action";
 
 //Import types
 import { Values } from "Types/Input.types";
+import { getSubCategory } from "Redux/Action/SubCategories/sub.action";
 
 //Interface
 interface Inputs {
@@ -39,10 +40,12 @@ const AddSection: NextPage = () => {
     //Selector
     const { profile } = useAppSelector(state => state.profile);
     const { categoriesData } = useAppSelector(state => state.getCategory);
+    const { subcategoryData } = useAppSelector(state => state.getSubs)
     const { message, loading, success } = useAppSelector(state => state.addSection);
     const [required, setRequired] = useState<boolean>(false);
     //State
     const [options, setOptions] = useState<Values[]>([]);
+    const [subOptions, setSubOptions] = useState<Values[]>([]);
     const [open, setOpen] = useState<boolean>(false);
     const [images, setImages] = useState<ImageListType>([]);
     //Handler
@@ -79,8 +82,15 @@ const AddSection: NextPage = () => {
                 label: item.name
             }
         })
-        setOptions(result)
-    }, [categoriesData, setOptions])
+        setOptions(result);
+        const subResult = subcategoryData?.map((item: any) => {
+            return {
+                value: item.id,
+                label: item.name
+            }
+        });
+        setSubOptions(subResult);
+    }, [categoriesData, setOptions, subcategoryData, setSubOptions])
     useEffect(() => {
         if (message && success !== null) {
             setOpen(true)
@@ -215,7 +225,7 @@ const AddSection: NextPage = () => {
                                             render={({ field: { onChange } }) => (
                                                 <Select
                                                     onChange={(e: any) => onChange(e?.value)}
-                                                    options={options}
+                                                    options={subOptions}
                                                     placeholder="Select category"
                                                     styles={selectStyles}
                                                     isSearchable
@@ -360,6 +370,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
             const auth = await store.dispatch(checkToken(context.req.cookies['secretId'] as string));
             await store.dispatch(getProfile(context.req.cookies['secretId'] as string));
             await store.dispatch(getAllCategory(context.req.cookies['secretId'] as string))
+            await store.dispatch(getSubCategory(context.req.cookies['secretId'] as string))
             if (!auth) {
                 return {
                     redirect: {
