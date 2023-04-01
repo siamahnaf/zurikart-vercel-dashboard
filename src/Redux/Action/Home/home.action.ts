@@ -8,6 +8,11 @@ import {
     CREATE_BANNERS_FAILED,
     CREATE_BANNERS_LOADING,
     CREATE_BANNERS_SUCCESS,
+    ADD_DYNAMIC_BANNER_SUCCESS,
+    ADD_DYNAMIC_BANNER_LOADING,
+    ADD_DYNAMIC_BANNER_FAILED,
+    GET_DYNAMIC_BANNER_SUCCESS,
+    GET_DYNAMIC_BANNER_FAILED,
     //Create sliders
     CREATE_SLIDERS_FAILED,
     CREATE_SLIDERS_LOADING,
@@ -35,6 +40,11 @@ import {
     DELETE_SLIDERS_FAILED,
     DELETE_SLIDERS_LOADING,
     DELETE_SLIDERS_SUCCESS,
+    SAVE_ARTICLES_SUCCESS,
+    SAVE_ARTICLES_FAILED,
+    SAVE_ARTICLES_LOADING,
+    GET_ARTICLES_FAILED,
+    GET_ARTICLES_SUCCESS,
     ADD_SECTIONS_SUCCESS,
     ADD_SECTIONS_FAILED,
     ADD_SECTIONS_LOADING,
@@ -47,7 +57,15 @@ import {
     //Update single sections
     UPDATE_SECTIONS_FAILED,
     UPDATE_SECTIONS_LOADING,
-    UPDATE_SECTIONS_SUCCESS
+    UPDATE_SECTIONS_SUCCESS,
+    DELETE_DYNAMIC_SUCCESS,
+    DELETE_DYNAMIC_FAILED,
+    DELETE_DYNAMIC_LOADING,
+    GET_SINGLE_DYNAMIC_SUCCESS,
+    GET_SINGLE_DYNAMIC_FAILED,
+    UPDATE_DYNAMIC_BANNER_SUCCESS,
+    UPDATE_DYNAMIC_BANNER_FAILED,
+    UPDATE_DYNAMIC_BANNER_LOADING
 } from "Redux/Constant/Home/home.constant";
 import { SERVER_ERROR } from "Redux/Constant/server.constant";
 
@@ -548,7 +566,7 @@ export const AddSections = (data: SectionData, file: File) => async (dispatch: D
         .then(res => {
             if (res.data.errors) {
                 dispatch({
-                    type: ADD_SECTIONS_SUCCESS,
+                    type: ADD_SECTIONS_FAILED,
                     payload: {
                         message: res.data.errors[0].message
                     }
@@ -700,6 +718,349 @@ export const deleteGallery = (id: string, imageUrl: string) => async (dispatch: 
                     type: DELETE_GALLERY_SUCCESS,
                     payload: {
                         delete: res.data.data.deleteGallery
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            dispatch({
+                type: SERVER_ERROR,
+                payload: {
+                    message: "Something went wrong!"
+                }
+            })
+        })
+}
+
+
+//Create banner action and types
+interface BannerImage {
+    url: string;
+    text: string;
+    link: string;
+}
+interface DynamicBanner {
+    title: string;
+    bannerType: string;
+    totalNumber: string;
+    publish: boolean;
+    section: string;
+    banners: BannerImage[]
+}
+//--//
+export const createDynamicBanners = (data: DynamicBanner) => async (dispatch: Dispatch) => {
+    dispatch({ type: ADD_DYNAMIC_BANNER_LOADING })
+    const token = Cookies.get("secretId");
+    await axios.post(process.env.NEXT_PUBLIC_API_URL as string, {
+        query:
+            `mutation addDynamicBanner($dynamicBannerInput: DynamicBannerInput!) {
+                addDynamicBanner(dynamicBannerInput: $dynamicBannerInput) {
+                  success
+                  message
+                }
+              }`,
+        variables: {
+            dynamicBannerInput: data
+        }
+    }, {
+        headers: {
+            'Authorization': `Bearer ${token as string}`
+        }
+    })
+        .then(res => {
+            if (res.data.errors) {
+                dispatch({
+                    type: ADD_DYNAMIC_BANNER_FAILED,
+                    payload: {
+                        message: res.data.errors[0].message
+                    }
+                })
+            } else {
+                dispatch({
+                    type: ADD_DYNAMIC_BANNER_SUCCESS,
+                    payload: {
+                        add: res.data.data.addDynamicBanner
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            dispatch({
+                type: SERVER_ERROR,
+                payload: {
+                    message: "Something went wrong!"
+                }
+            })
+        })
+}
+
+
+
+//Get sliders
+export const getDynamicBanner = () => async (dispatch: Dispatch) => {
+    await axios.post(process.env.NEXT_PUBLIC_API_URL as string, {
+        query:
+            `query getDynamicBanners{
+                getDynamicBanners {
+                  id
+                  title
+                  bannerType
+                  publish
+                  totalNumber
+                  section {
+                    name
+                    id
+                  }
+                }
+            }`
+    })
+        .then(res => {
+            if (res.data.errors) {
+                dispatch({
+                    type: GET_DYNAMIC_BANNER_FAILED,
+                    payload: {
+                        message: res.data.errors[0].message
+                    }
+                })
+            } else {
+                dispatch({
+                    type: GET_DYNAMIC_BANNER_SUCCESS,
+                    payload: {
+                        getDynamic: res.data.data.getDynamicBanners
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            dispatch({
+                type: SERVER_ERROR,
+                payload: {
+                    message: "Something went wrong!"
+                }
+            })
+        })
+}
+
+
+export const deleteDynamic = (id: string) => async (dispatch: Dispatch) => {
+    dispatch({ type: DELETE_DYNAMIC_LOADING });
+    const token = Cookies.get("secretId");
+    await axios.post(process.env.NEXT_PUBLIC_API_URL as string, {
+        query:
+            `mutation deleteDynamic($deleteDynamicBannersId: String!) {
+                deleteDynamicBanners(id: $deleteDynamicBannersId) {
+                  success
+                  message
+                }
+            }`,
+        variables: { deleteDynamicBannersId: id }
+    }, {
+        headers: {
+            'Authorization': `Bearer ${token as string}`
+        }
+    })
+        .then(res => {
+            if (res.data.errors) {
+                dispatch({
+                    type: DELETE_DYNAMIC_FAILED,
+                    payload: {
+                        message: res.data.errors[0].message
+                    }
+                })
+            } else {
+                dispatch({
+                    type: DELETE_DYNAMIC_SUCCESS,
+                    payload: {
+                        delete: res.data.data.deleteDynamicBanners
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            dispatch({
+                type: SERVER_ERROR,
+                payload: {
+                    message: "Something went wrong!"
+                }
+            })
+        })
+}
+
+
+//Get sliders
+export const getSingleDynamicBanner = (id: string) => async (dispatch: Dispatch) => {
+    await axios.post(process.env.NEXT_PUBLIC_API_URL as string, {
+        query:
+            `query getSingleDynamic($getSingleDynamicId: String!) {
+                getSingleDynamic(id: $getSingleDynamicId) {
+                  id
+                  title
+                  bannerType
+                  publish
+                  totalNumber
+                  banners {
+                    url
+                    text
+                    link
+                  }
+                  section {
+                    name
+                    id
+                  }
+                }
+              }`,
+        variables: {
+            getSingleDynamicId: id
+        }
+    })
+        .then(res => {
+            if (res.data.errors) {
+                dispatch({
+                    type: GET_SINGLE_DYNAMIC_FAILED,
+                    payload: {
+                        message: res.data.errors[0].message
+                    }
+                })
+            } else {
+                dispatch({
+                    type: GET_SINGLE_DYNAMIC_SUCCESS,
+                    payload: {
+                        getDynamic: res.data.data.getSingleDynamic
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            dispatch({
+                type: SERVER_ERROR,
+                payload: {
+                    message: "Something went wrong!"
+                }
+            })
+        })
+}
+
+
+export const updateDynamicBanners = (data: DynamicBanner, id: string) => async (dispatch: Dispatch) => {
+    dispatch({ type: UPDATE_DYNAMIC_BANNER_LOADING })
+    const token = Cookies.get("secretId");
+    await axios.post(process.env.NEXT_PUBLIC_API_URL as string, {
+        query:
+            `mutation updateDynamicBanner($dynamicBannerInput: DynamicBannerInput!, $updateDynamicBannerId: String!) {
+                updateDynamicBanner(dynamicBannerInput: $dynamicBannerInput, id: $updateDynamicBannerId) {
+                  success
+                  message
+                }
+              }`,
+        variables: {
+            dynamicBannerInput: data,
+            updateDynamicBannerId: id
+        }
+    }, {
+        headers: {
+            'Authorization': `Bearer ${token as string}`
+        }
+    })
+        .then(res => {
+            if (res.data.errors) {
+                dispatch({
+                    type: UPDATE_DYNAMIC_BANNER_FAILED,
+                    payload: {
+                        message: res.data.errors[0].message
+                    }
+                })
+            } else {
+                dispatch({
+                    type: UPDATE_DYNAMIC_BANNER_SUCCESS,
+                    payload: {
+                        update: res.data.data.updateDynamicBanner
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            dispatch({
+                type: SERVER_ERROR,
+                payload: {
+                    message: "Something went wrong!"
+                }
+            })
+        })
+}
+
+interface ArticlesData {
+    description: string;
+}
+export const saveArticles = (data: ArticlesData) => async (dispatch: Dispatch) => {
+    dispatch({ type: SAVE_ARTICLES_LOADING })
+    const token = Cookies.get("secretId");
+    await axios.post(process.env.NEXT_PUBLIC_API_URL as string, {
+        query:
+            `mutation saveArticles($articlesInput: ArticlesInput!) {
+                saveArticles(articlesInput: $articlesInput) {
+                  success
+                  message
+                }
+              }`,
+        variables: {
+            articlesInput: data
+        }
+    }, {
+        headers: {
+            'Authorization': `Bearer ${token as string}`
+        }
+    })
+        .then(res => {
+            if (res.data.errors) {
+                dispatch({
+                    type: SAVE_ARTICLES_FAILED,
+                    payload: {
+                        message: res.data.errors[0].message
+                    }
+                })
+            } else {
+                dispatch({
+                    type: SAVE_ARTICLES_SUCCESS,
+                    payload: {
+                        save: res.data.data.saveArticles
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            dispatch({
+                type: SERVER_ERROR,
+                payload: {
+                    message: "Something went wrong!"
+                }
+            })
+        })
+}
+
+
+//Get sliders
+export const getArticles = () => async (dispatch: Dispatch) => {
+    await axios.post(process.env.NEXT_PUBLIC_API_URL as string, {
+        query:
+            `query getArticles {
+                getArticles {
+                  description
+                }
+            }`
+    })
+        .then(res => {
+            if (res.data.errors) {
+                dispatch({
+                    type: GET_ARTICLES_FAILED,
+                    payload: {
+                        message: res.data.errors[0].message
+                    }
+                })
+            } else {
+                dispatch({
+                    type: GET_ARTICLES_SUCCESS,
+                    payload: {
+                        getArticles: res.data.data.getArticles
                     }
                 })
             }

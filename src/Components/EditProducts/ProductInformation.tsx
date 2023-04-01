@@ -124,6 +124,36 @@ const ProductInformation = ({ register, control, errors }: Props) => {
                     </Grid>
                     <Grid item {...{ md: 2.5 }}>
                         <Typography variant="body1" component="p" sx={styles.Label}>
+                            Product Badge
+                        </Typography>
+                    </Grid>
+                    <Grid item {...{ md: 9.5 }}>
+                        <Box sx={{ position: "relative" }}>
+                            <InputBase
+                                fullWidth
+                                placeholder="Product Badge"
+                                sx={styles.InputBase}
+                                {...register("badge")}
+                            />
+                        </Box>
+                    </Grid>
+                    <Grid item {...{ md: 2.5 }}>
+                        <Typography variant="body1" component="p" sx={styles.Label}>
+                            Product Notice
+                        </Typography>
+                    </Grid>
+                    <Grid item {...{ md: 9.5 }}>
+                        <Box sx={{ position: "relative" }}>
+                            <InputBase
+                                fullWidth
+                                placeholder="Product Notice"
+                                sx={styles.InputBase}
+                                {...register("notice")}
+                            />
+                        </Box>
+                    </Grid>
+                    <Grid item {...{ md: 2.5 }}>
+                        <Typography variant="body1" component="p" sx={styles.Label}>
                             Category
                         </Typography>
                     </Grid>

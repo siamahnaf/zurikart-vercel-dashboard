@@ -178,6 +178,9 @@ interface GetProductInitial {
         discountUnit?: string;
         quantity?: number;
         description?: string;
+        notice?: string;
+        badge?: string;
+        shortSummery?: string;
         visibility?: boolean;
         attributes?: Attributes[];
         specification?: Specification[];

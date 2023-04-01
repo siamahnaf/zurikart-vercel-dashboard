@@ -14,6 +14,10 @@ export interface Inputs {
     flash: string;
     productUrl: string;
     youtubeLink: string;
+    badge: string;
+    notice: string;
+    description: string;
+    shortSummery: string;
     price: number;
     quantity: number;
     discount: number | string;

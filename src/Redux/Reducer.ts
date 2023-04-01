@@ -65,7 +65,14 @@ import {
     createGalleryReducer,
     getGalleryReducer,
     deleteGalleryReducer,
-    addSectionReducer
+    addSectionReducer,
+    addDynamicBannerReducer,
+    getDynamicBannerReducer,
+    deleteDynamicBannerReducer,
+    updateDynamicBannerReducer,
+    singleDynamicBannerReducer,
+    saveArticlesReducer,
+    getArticlesReducer
 } from "Redux/Reducer/Home/home.reducer";
 import {
     updateSiteReducer,
@@ -101,6 +108,7 @@ export const combinedReducer = combineReducers({
     deleteBrand: deleteBrandReducer,
     getSingleBrand: getSingleBrandReducer,
     updateBrand: updateBrandReducer,
+    addDynamic: addDynamicBannerReducer,
     createTag: createTagReducer,
     getTags: getTagsReducer,
     deleteTags: deleteTagsReducer,
@@ -137,5 +145,11 @@ export const combinedReducer = combineReducers({
     updateProfile: updateProfileReducer,
     updatePassword: updatePasswordReducer,
     getDashboard: getDashboardReducer,
-    serverError: serverErrorReducer
+    serverError: serverErrorReducer,
+    getDynamic: getDynamicBannerReducer,
+    deleteDynamicBanner: deleteDynamicBannerReducer,
+    updateDynamicBanner: updateDynamicBannerReducer,
+    singleDynamicBanner: singleDynamicBannerReducer,
+    saveArticles: saveArticlesReducer,
+    getArticles: getArticlesReducer
 });

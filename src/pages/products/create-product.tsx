@@ -42,7 +42,6 @@ const CreateProduct: NextPage = () => {
     //State
     const [attributes, setAttribute] = useState<Attributes[]>([]);
     const [combines, setCombine] = useState<Combine[]>([]);
-    const [description, setDescription] = useState<string>("");
     const [images, setImages] = useState<ImageListType>([]);
     const [metaImages, setMetaImages] = useState<ImageListType>([]);
     const [open, setOpen] = useState<boolean>(false);
@@ -66,7 +65,6 @@ const CreateProduct: NextPage = () => {
     const onSubmit: SubmitHandler<Inputs> = (data, e) => {
         const moreData = {
             images: images,
-            description: description,
             attributes: combines,
             metaImages: metaImages[0]?.file as File
         }
@@ -88,9 +86,8 @@ const CreateProduct: NextPage = () => {
             setImages([])
             setCombine([])
             setMetaImages([])
-            setDescription("")
         }
-    }, [success, message, reset, setOpen, setImages, setDescription])
+    }, [success, message, reset, setOpen, setImages])
     return (
         <Layout title="Create products | Changing Experience!" active="product">
             {message &&
@@ -137,7 +134,8 @@ const CreateProduct: NextPage = () => {
                                 control={control}
                             />
                             <ProductDescription
-                                setDescription={setDescription}
+                                register={register}
+                                control={control}
                             />
                             <ProductSpecification
                                 register={register}

@@ -50,6 +50,10 @@ interface CreateData {
     tags: string[];
     youtubeLink: string;
     price: number;
+    description: string;
+    notice: string;
+    badge: string;
+    shortSummery: string;
     quantity: number;
     discount: number | string;
     discountUnit: string;
@@ -81,7 +85,6 @@ interface Attributes {
 }
 interface MoreData {
     images: ImageListType;
-    description: string;
     attributes: Combines[];
     metaImages: File;
 }
@@ -140,7 +143,10 @@ export const createProducts = (data: CreateData, more: MoreData) => async (dispa
                 discount: Number(data.discount),
                 discountUnit: data.discountUnit,
                 quantity: Number(data.quantity),
-                description: more.description,
+                description: data.description,
+                notice: data.notice,
+                badge: data.badge,
+                shortSummery: data.shortSummery,
                 doorDeliveryFee: Number(data.doorDeliveryFee),
                 pickupFee: Number(data.pickupFee),
                 specification: data.specification,
@@ -325,6 +331,9 @@ export const getSingleProduct = (slug: string) => async (dispatch: Dispatch) => 
                   }
                   unit
                   minPurchase
+                  notice
+                  badge
+                  shortSummery
                   tag {
                     value: id
                     label: name
@@ -395,7 +404,6 @@ export const getSingleProduct = (slug: string) => async (dispatch: Dispatch) => 
 //Update products action and types
 interface MoreUpdateData {
     images: ImageListType;
-    description: string;
     attributes: Combines[];
     updateAttributes: Attributes[];
     metaImages: File;
@@ -477,12 +485,15 @@ export const updateProducts = (data: CreateData, more: MoreUpdateData, imageUrl:
                 price: Number(data.price),
                 discount: Number(data.discount),
                 discountUnit: data.discountUnit,
+                notice: data.notice,
+                badge: data.badge,
+                shortSummery: data.shortSummery,
                 doorDeliveryFee: Number(data.doorDeliveryFee),
                 pickupFee: Number(data.pickupFee),
                 specification: data.specification,
                 productUrl: data.productUrl,
                 quantity: Number(data.quantity),
-                description: more.description,
+                description: data.description,
                 attributes: attributes.length > 0 ? attributes : updateAttributes,
                 visibility: data.visibility,
                 meta: data.meta,

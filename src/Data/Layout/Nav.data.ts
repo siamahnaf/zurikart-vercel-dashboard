@@ -48,6 +48,12 @@ export const AdminNavs = [
         icon: "icon-park-solid:setting-computer"
     },
     {
+        title: "Banner & Articles",
+        id: "banner",
+        url: "/banner",
+        icon: "material-symbols:image"
+    },
+    {
         title: "Site Setting",
         id: "site",
         url: "/site-setting",

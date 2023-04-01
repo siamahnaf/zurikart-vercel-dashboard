@@ -43,7 +43,6 @@ const EditProducts: NextPage = () => {
     //State
     const [attributes, setAttribute] = useState<Attributes[]>([]);
     const [combines, setCombine] = useState<Combine[]>([]);
-    const [description, setDescription] = useState<string>("");
     const [images, setImages] = useState<ImageListType>([]);
     const [metaImages, setMetaImages] = useState<ImageListType>([]);
     const [open, setOpen] = useState<boolean>(false);
@@ -78,6 +77,10 @@ const EditProducts: NextPage = () => {
             discountUnit: product?.discountUnit,
             specification: product?.specification,
             doorDeliveryFee: product?.doorDeliveryFee,
+            notice: product?.notice,
+            badge: product?.badge,
+            shortSummery: product?.shortSummery,
+            description: product?.description,
             pickupFee: product?.pickupFee,
             meta: {
                 title: product?.meta?.title,
@@ -97,7 +100,6 @@ const EditProducts: NextPage = () => {
     const onSubmit: SubmitHandler<Inputs> = (data, e) => {
         const moreData = {
             images,
-            description,
             attributes: combines,
             updateAttributes: product?.attributes,
             metaImages: metaImages[0]?.file as File
@@ -172,7 +174,8 @@ const EditProducts: NextPage = () => {
                                     control={control}
                                 />
                                 <ProductDescription
-                                    setDescription={setDescription}
+                                    register={register}
+                                    control={control}
                                 />
                                 <ProductSpecification
                                     register={register}

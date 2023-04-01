@@ -8,9 +8,19 @@ import {
     CREATE_SLIDERS_LOADING,
     CREATE_SLIDERS_FAILED,
     CREATE_SLIDERS_SUCCESS,
+    ADD_DYNAMIC_BANNER_SUCCESS,
+    ADD_DYNAMIC_BANNER_FAILED,
+    ADD_DYNAMIC_BANNER_LOADING,
+    GET_DYNAMIC_BANNER_SUCCESS,
+    GET_DYNAMIC_BANNER_FAILED,
     CREATE_GALLERY_SUCCESS,
     CREATE_GALLERY_LOADING,
     CREATE_GALLERY_FAILED,
+    SAVE_ARTICLES_SUCCESS,
+    SAVE_ARTICLES_FAILED,
+    SAVE_ARTICLES_LOADING,
+    GET_ARTICLES_FAILED,
+    GET_ARTICLES_SUCCESS,
     //Get banners
     GET_BANNERS_FAILED,
     GET_BANNERS_SUCCESS,
@@ -42,7 +52,15 @@ import {
     //Update single section
     UPDATE_SECTIONS_FAILED,
     UPDATE_SECTIONS_LOADING,
-    UPDATE_SECTIONS_SUCCESS
+    UPDATE_SECTIONS_SUCCESS,
+    DELETE_DYNAMIC_SUCCESS,
+    DELETE_DYNAMIC_FAILED,
+    DELETE_DYNAMIC_LOADING,
+    GET_SINGLE_DYNAMIC_SUCCESS,
+    GET_SINGLE_DYNAMIC_FAILED,
+    UPDATE_DYNAMIC_BANNER_SUCCESS,
+    UPDATE_DYNAMIC_BANNER_FAILED,
+    UPDATE_DYNAMIC_BANNER_LOADING
 } from "Redux/Constant/Home/home.constant";
 
 //Create banner initial state and type
@@ -489,6 +507,258 @@ export const addSectionReducer = (state = AddSectionInitial, action: AnyAction) 
                 message: action.payload.message,
                 success: false,
                 loading: false
+            }
+        default:
+            return state
+    }
+}
+
+
+//Create banner initial state and type
+interface AddDynamicBannerInitial {
+    success?: boolean | null;
+    loading?: boolean;
+    message?: string;
+}
+//--//
+const addDynamicBannerInitial: AddDynamicBannerInitial = {
+    loading: false
+}
+//--//
+export const addDynamicBannerReducer = (state = addDynamicBannerInitial, action: AnyAction) => {
+    switch (action.type) {
+        case ADD_DYNAMIC_BANNER_LOADING:
+            return {
+                loading: true
+            }
+        case ADD_DYNAMIC_BANNER_SUCCESS:
+            return {
+                success: action.payload.add.success,
+                message: action.payload.add.message,
+                loading: false
+            }
+        case ADD_DYNAMIC_BANNER_FAILED:
+            return {
+                message: action.payload.message,
+                loading: false,
+                success: false
+            }
+        default:
+            return state
+    }
+}
+
+
+//Get section initial and types
+interface DynamicBanner {
+    id: string;
+    title: string;
+    bannerType: string;
+    publish: boolean;
+    totalNumber: string;
+    section: {
+        name: string;
+        id: string;
+    }
+}
+interface GetDynamicBanner {
+    success?: boolean | null;
+    message?: string;
+    dynamicData?: DynamicBanner[]
+}
+//--//
+const getDynamicBannerInitial: GetDynamicBanner = {}
+//--//
+export const getDynamicBannerReducer = (state = getDynamicBannerInitial, action: AnyAction) => {
+    switch (action.type) {
+        case GET_DYNAMIC_BANNER_SUCCESS:
+            return {
+                success: true,
+                dynamicData: action.payload.getDynamic
+            }
+        case GET_DYNAMIC_BANNER_FAILED:
+            return {
+                message: action.payload.message,
+                success: false
+            }
+        default:
+            return state
+    }
+}
+
+
+//Create banner initial state and type
+interface DeleteDynamicBannerInitial {
+    success?: boolean | null;
+    loading?: boolean;
+    message?: string;
+}
+//--//
+const deleteDynamicBannerInitial: DeleteDynamicBannerInitial = {
+    loading: false
+}
+//--//
+export const deleteDynamicBannerReducer = (state = deleteDynamicBannerInitial, action: AnyAction) => {
+    switch (action.type) {
+        case DELETE_DYNAMIC_LOADING:
+            return {
+                loading: true
+            }
+        case DELETE_DYNAMIC_SUCCESS:
+            return {
+                success: action.payload.delete.success,
+                message: action.payload.delete.message,
+                loading: false
+            }
+        case DELETE_DYNAMIC_FAILED:
+            return {
+                message: action.payload.message,
+                loading: false,
+                success: false
+            }
+        default:
+            return state
+    }
+}
+
+
+//Create banner initial state and type
+interface updateDynamicBannerInitial {
+    success?: boolean | null;
+    loading?: boolean;
+    message?: string;
+}
+//--//
+const updateDynamicBannerInitial: updateDynamicBannerInitial = {
+    loading: false
+}
+//--//
+export const updateDynamicBannerReducer = (state = updateDynamicBannerInitial, action: AnyAction) => {
+    switch (action.type) {
+        case UPDATE_DYNAMIC_BANNER_LOADING:
+            return {
+                loading: true
+            }
+        case UPDATE_DYNAMIC_BANNER_SUCCESS:
+            return {
+                success: action.payload.update.success,
+                message: action.payload.update.message,
+                loading: false
+            }
+        case UPDATE_DYNAMIC_BANNER_FAILED:
+            return {
+                message: action.payload.message,
+                loading: false,
+                success: false
+            }
+        default:
+            return state
+    }
+}
+
+//Get section initial and types
+interface BannersTypes {
+    url: string;
+    text: string;
+    link: string;
+}
+interface SingleDynamicBanner {
+    id: string;
+    title: string;
+    bannerType: string;
+    publish: boolean;
+    totalNumber: string;
+    banners: BannersTypes
+    section: {
+        name: string;
+        id: string;
+    }
+}
+interface SingleDynamicBannerInitial {
+    success?: boolean | null;
+    message?: string;
+    dynamics?: SingleDynamicBanner
+}
+//--//
+const singleDynamicBannerInitial: SingleDynamicBannerInitial = {}
+//--//
+export const singleDynamicBannerReducer = (state = singleDynamicBannerInitial, action: AnyAction) => {
+    switch (action.type) {
+        case GET_SINGLE_DYNAMIC_SUCCESS:
+            return {
+                success: true,
+                dynamics: action.payload.getDynamic
+            }
+        case GET_SINGLE_DYNAMIC_FAILED:
+            return {
+                message: action.payload.message,
+                success: false
+            }
+        default:
+            return state
+    }
+}
+
+
+
+
+//Create banner initial state and type
+interface SaveArticlesInitial {
+    success?: boolean | null;
+    loading?: boolean;
+    message?: string;
+}
+//--//
+const saveArticlesInitial: SaveArticlesInitial = {
+    loading: false
+}
+//--//
+export const saveArticlesReducer = (state = saveArticlesInitial, action: AnyAction) => {
+    switch (action.type) {
+        case SAVE_ARTICLES_LOADING:
+            return {
+                loading: true
+            }
+        case SAVE_ARTICLES_SUCCESS:
+            return {
+                success: action.payload.save.success,
+                message: action.payload.save.message,
+                loading: false
+            }
+        case SAVE_ARTICLES_FAILED:
+            return {
+                message: action.payload.message,
+                loading: false,
+                success: false
+            }
+        default:
+            return state
+    }
+}
+
+
+interface ArticlesDesc {
+    description: string;
+}
+interface GetArticlesInitial {
+    success?: boolean | null;
+    message?: string;
+    articles?: ArticlesDesc
+}
+//--//
+const getArticlesInitial: GetArticlesInitial = {}
+//--//
+export const getArticlesReducer = (state = getArticlesInitial, action: AnyAction) => {
+    switch (action.type) {
+        case GET_ARTICLES_SUCCESS:
+            return {
+                success: true,
+                articles: action.payload.getArticles
+            }
+        case GET_ARTICLES_FAILED:
+            return {
+                message: action.payload.message,
+                success: false
             }
         default:
             return state

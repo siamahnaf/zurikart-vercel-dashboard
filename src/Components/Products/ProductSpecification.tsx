@@ -1,5 +1,4 @@
 import { Box, Typography, Divider, Grid, InputBase, ButtonBase } from "@mui/material";
-import "quill/dist/quill.snow.css";
 import { UseFormRegister, Control, useFieldArray } from "react-hook-form";
 
 //Styles

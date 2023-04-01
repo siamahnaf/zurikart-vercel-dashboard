@@ -1,5 +1,5 @@
-import { ChangeEvent, useMemo, useState, useRef } from "react";
-import { Box, Typography, Divider, InputBase, Grid, Switch } from "@mui/material";
+import { ChangeEvent, useMemo, useState } from "react";
+import { Box, Typography, Divider, InputBase, Grid } from "@mui/material";
 import { UseFormRegister, FieldErrors, Control, Controller, useWatch } from "react-hook-form";
 import Select from "react-select";
 import { Icon } from "@iconify/react";
@@ -119,6 +119,36 @@ const ProductInformation = ({ register, control, errors }: Props) => {
                                     <Icon icon="clarity:error-line" />
                                 </Box>
                             }
+                        </Box>
+                    </Grid>
+                    <Grid item {...{ md: 2.5 }}>
+                        <Typography variant="body1" component="p" sx={styles.Label}>
+                            Product Badge
+                        </Typography>
+                    </Grid>
+                    <Grid item {...{ md: 9.5 }}>
+                        <Box sx={{ position: "relative" }}>
+                            <InputBase
+                                fullWidth
+                                placeholder="Product Badge"
+                                sx={styles.InputBase}
+                                {...register("badge")}
+                            />
+                        </Box>
+                    </Grid>
+                    <Grid item {...{ md: 2.5 }}>
+                        <Typography variant="body1" component="p" sx={styles.Label}>
+                            Product Notice
+                        </Typography>
+                    </Grid>
+                    <Grid item {...{ md: 9.5 }}>
+                        <Box sx={{ position: "relative" }}>
+                            <InputBase
+                                fullWidth
+                                placeholder="Product Notice"
+                                sx={styles.InputBase}
+                                {...register("notice")}
+                            />
                         </Box>
                     </Grid>
                     <Grid item {...{ md: 2.5 }}>
