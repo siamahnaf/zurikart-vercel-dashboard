@@ -379,6 +379,7 @@ export const getSections = () => async (dispatch: Dispatch) => {
                 getSections {
                     id
                     name
+                    color
                     description
                     publish
                     category1 {
@@ -425,6 +426,7 @@ export const getSingleSection = (id: string) => async (dispatch: Dispatch) => {
                 getSingleSection(id: "${id}") {
                     id
                     name
+                    color
                     description
                     publish
                     category1 {
@@ -470,6 +472,7 @@ export const getSingleSection = (id: string) => async (dispatch: Dispatch) => {
 //Update sections action and types
 interface SectionData {
     name: string;
+    color: string;
     description: string;
     category1: string;
     category2: string;
@@ -490,6 +493,7 @@ export const updateSections = (data: SectionData, imageUrl: string, file: File, 
             `mutation updateSection {
                 updateSection(sectionInput: {
                     name: "${data.name}"
+                    color: "${data.color}"
                     description: "${data.description}"
                     category1: "${data.category1}"
                     category2: "${data.category2}"
@@ -547,6 +551,7 @@ export const AddSections = (data: SectionData, file: File) => async (dispatch: D
             `mutation addSection {
                 addSection(sectionInput: {
                     name: "${data.name}"
+                    color: "${data.color}"
                     description: "${data.description}"
                     category1: "${data.category1}"
                     category2: "${data.category2}"

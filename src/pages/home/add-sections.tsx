@@ -27,6 +27,7 @@ import { Values } from "Types/Input.types";
 //Interface
 interface Inputs {
     name: string;
+    color: string;
     description: string;
     category1: string;
     category2: string;
@@ -133,6 +134,21 @@ const AddSection: NextPage = () => {
                                                 <Icon icon="clarity:error-line" />
                                             </Box>
                                         }
+                                    </Box>
+                                </Grid>
+                                <Grid item {...{ md: 3 }}>
+                                    <Typography variant="body1" component="p" sx={styles.Label}>
+                                        Background Color
+                                    </Typography>
+                                </Grid>
+                                <Grid item {...{ md: 9 }}>
+                                    <Box sx={{ position: "relative" }}>
+                                        <InputBase
+                                            fullWidth
+                                            placeholder="Type color with hash; EXP: #000000"
+                                            {...register("color")}
+                                            sx={styles.InputBase}
+                                        />
                                     </Box>
                                 </Grid>
                                 <Grid item {...{ md: 3 }}>
