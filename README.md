@@ -1,4 +1,4 @@
- <img src="https://lh3.googleusercontent.com/d/1itTuDTkuBkfMYuRh6MAScV3nxFVGbpmo" width="100" height="100" style="display: block; margin: 0 auto;">
+<img src="https://res.cloudinary.com/dbjrx698c/image/upload/v1704611347/logo_w4vxp0.png" width="100" height="100" style="display: block; margin: 0 auto;">
 
 # Zurikart Dashboard
 Zurikart dashboard is an ecommerce dashboard platform built with nextjs, material ui and graphql api
